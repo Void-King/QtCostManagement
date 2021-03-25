@@ -1,0 +1,3 @@
+到开始菜单图标的文件夹下开terminal
+
+for %f in (*.*) do copy /b "%f" +,,
