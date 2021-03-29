@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/CostManagement">
+        <file>qss/MaterialDark.qss</file>
+        <file>resource/CostManagement.png</file>
+    </qresource>
+</RCC>
