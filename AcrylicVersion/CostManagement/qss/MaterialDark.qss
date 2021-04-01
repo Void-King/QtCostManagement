@@ -410,12 +410,12 @@ QSlider::sub-page:vertical {
 }
 
 QScrollBar:vertical { 
-    background: rgba(94,94,94,60);
+    background: rgba(0,0,0,0);
 	margin:0 0 0 0px;
 }
 
 QScrollBar::handle:vertical{
-	background: #6C852E;
+	background: #005035;
 	min-width: 20px;
 }
 
@@ -425,34 +425,27 @@ QScrollBar::handle:vertical:hover{
 }
 
 QScrollBar::add-page:vertical {
-	background-color:rgba(94,94,94,60);
+	background-color:rgba(0,0,0,0);
 }
 
 QScrollBar::sub-page:vertical {
-	background-color:rgba(94,94,94,60);
+	background-color:rgba(0,0,0,0);
 }
 
 /* 底部控制块 */
 QScrollBar::add-line:vertical {
-	background:#FD5647;
 	height:0px;
-	subcontrol-position:bottom;
-	subcontrol-origin:margin;
 }
 
 /* 顶部控制块 */
 QScrollBar::sub-line:vertical {
-	background:#FD5647;
 	height:0px;
-	subcontrol-position:top;
-	subcontrol-origin:margin;
 }
 
 /* 控制块上的小箭头 */
 QScrollBar::up-arrow:vertical,QScrollBar::down-arrow:vertical {
 	width:0px;
 	height:0px;
-	background:white;
 }
 
 QTableWidget {
