@@ -459,7 +459,7 @@ QTableWidget {
 	/* background-color:#242424; */
 	background-color: rgba(40,40,40,0);
 	border: 1px solid #4f4f4f;
-	selection-background-color:rgba(43,188,146,60);
+	selection-background-color:rgba(43,188,146,140);
 	selection-color:#f0f0f0;
 	color: #f0f0f0;
 	gridline-color:#4f4f4f;

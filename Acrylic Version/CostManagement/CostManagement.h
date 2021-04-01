@@ -5,7 +5,20 @@
 #include <set>
 
 #include <QtWidgets/QMainWindow>
+#include <QMessageBox>
+
 #include "ui_CostManagement.h"
+
+class AcrylicMessageBox : public QMessageBox
+{
+public:
+	AcrylicMessageBox();
+
+protected:
+	void paintEvent(QPaintEvent *e);
+
+	QLabel* labelBackground = nullptr;
+};
 
 class CostManagement : public QMainWindow
 {
@@ -72,6 +85,6 @@ private:
 
 	QString m_costFile = "";
 	bool m_directExit = false;
-	QColor m_monthBackColor = QColor(0, 60, 40, 120);
-	QColor m_weekBackColor = QColor(0, 90, 60, 120);
+	QColor m_monthBackColor = QColor(0, 60, 40, 140);
+	QColor m_weekBackColor = QColor(0, 120, 80, 140);
 };

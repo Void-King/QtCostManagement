@@ -112,6 +112,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AcrylicWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMsgFilter.h" />
   </ItemGroup>
