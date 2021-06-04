@@ -314,6 +314,9 @@
     <property name="minimum">
      <double>-999999.989999999990687</double>
     </property>
+    <property name="maximum">
+     <double>999999.989999999990687</double>
+    </property>
     <property name="value">
      <double>0.000000000000000</double>
     </property>
@@ -422,11 +425,75 @@
      <string>本月其他：</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="sizeGripEnabled">
-    <bool>false</bool>
-   </property>
+   <widget class="QLabel" name="labelBackground">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-10</y>
+      <width>811</width>
+      <height>711</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>sdfad</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelAllCost">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>610</y>
+      <width>54</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>全部花销：</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="allCost">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>600</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>-999999.989999999990687</double>
+    </property>
+    <property name="maximum">
+     <double>999999.989999999990687</double>
+    </property>
+   </widget>
+   <zorder>labelBackground</zorder>
+   <zorder>buttonAdd</zorder>
+   <zorder>buttonFolder</zorder>
+   <zorder>buttonDelete</zorder>
+   <zorder>buttonExit</zorder>
+   <zorder>buttonMinimize</zorder>
+   <zorder>label</zorder>
+   <zorder>appTitle</zorder>
+   <zorder>costTable</zorder>
+   <zorder>newCostInput</zorder>
+   <zorder>newCostDescription</zorder>
+   <zorder>curRemain</zorder>
+   <zorder>weekCost</zorder>
+   <zorder>monthCost</zorder>
+   <zorder>weekEat</zorder>
+   <zorder>monthEat</zorder>
+   <zorder>monthOther</zorder>
+   <zorder>curRemainLabel</zorder>
+   <zorder>newCostLable</zorder>
+   <zorder>newCostDescriptionLable</zorder>
+   <zorder>weekCostLabel</zorder>
+   <zorder>monthCostLabel</zorder>
+   <zorder>weekEatLabel</zorder>
+   <zorder>monthEatLabel</zorder>
+   <zorder>monthOtherLabel</zorder>
+   <zorder>labelAllCost</zorder>
+   <zorder>allCost</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

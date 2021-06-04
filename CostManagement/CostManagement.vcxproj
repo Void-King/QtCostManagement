@@ -58,7 +58,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PostBuildEvent>
-      <Command>$(ProjectDir)/CopyResource_x64_Debug.bat</Command>
+      <Command>$(ProjectDir)/CopyResource_x64.bat $(Configuration)</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG</PreprocessorDefinitions>
@@ -72,7 +72,7 @@
       <PreprocessorDefinitions>_RELEASE</PreprocessorDefinitions>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>$(ProjectDir)/CopyResource_x64_Release.bat</Command>
+      <Command>$(ProjectDir)/CopyResource_x64.bat $(Configuration)</Command>
     </PostBuildEvent>
     <ClCompile>
       <PreprocessorDefinitions>_RELEASE;$(Qt_DEFINES_);%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -112,6 +112,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AcrylicWnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMsgFilter.h" />
   </ItemGroup>

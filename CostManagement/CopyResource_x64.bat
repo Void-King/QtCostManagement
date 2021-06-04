@@ -1,7 +1,7 @@
-
+set configuration=%1
 cd %~dp0
 cd ../
-set destination=%cd%\x64\Release
+set destination=%cd%\x64\%configuration%
 
 cd %~dp0
 

@@ -11,11 +11,45 @@
 #include <QJsonValue>
 #include <QLabel>
 #include <QLineEdit>
-#include <QMessageBox>
 #include <QMouseEvent>
 #include <QProcess>
+#include <QPainter>
 
 #include "CostManagement.h"
+#include "AcrylicWnd.h"
+
+
+AcrylicMessageBox::AcrylicMessageBox()
+{
+	HWND hWnd = HWND(winId());
+	Acrylic(hWnd);
+	this->setAttribute(Qt::WA_TranslucentBackground);
+
+	labelBackground = new QLabel(this);
+	labelBackground->lower();
+
+	int wWidth = this->width();
+	int wHeight = this->height();
+
+	QSize backgroundSize;
+	backgroundSize.setHeight(wHeight);
+	backgroundSize.setWidth(wWidth);
+
+	labelBackground->setText("");
+	labelBackground->
+		setStyleSheet("QLabel{background-color:rgba(40,40,40,140);}");
+
+	labelBackground->resize(backgroundSize);
+	labelBackground->move(0, 0);
+}
+
+void AcrylicMessageBox::paintEvent(QPaintEvent *e)
+{
+	QMessageBox::paintEvent(e);
+	QPainter p(this);
+	p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+	p.fillRect(rect(), QColor(0, 0, 0, 0));
+}
 
 CostManagement::CostManagement(QWidget *parent)
 	: QMainWindow(parent)
@@ -28,12 +62,19 @@ CostManagement::CostManagement(QWidget *parent)
 	eatFilterInit();
 	costInit();
 	costDataInit();
-	// costDataInitFromPython();
 }
 
 CostManagement::~CostManagement()
 {
 
+}
+
+void CostManagement::paintEvent(QPaintEvent *e)
+{
+	QMainWindow::paintEvent(e);
+	QPainter p(this);
+	p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+	p.fillRect(rect(), QColor(0, 0, 0, 0));
 }
 
 void CostManagement::eatFilterInit()
@@ -60,8 +101,13 @@ void CostManagement::eatFilterInit()
 		m_eatPattern.push_back(itr.toString());
 	}
 }
+
 void CostManagement::uiConfig()
 {
+	HWND hWnd = HWND(winId());
+	Acrylic(hWnd);
+	this->setAttribute(Qt::WA_TranslucentBackground);
+
 	QIcon wIcon("./resource/CostManagement.png");
 	this->setWindowIcon(wIcon);
 
@@ -89,6 +135,13 @@ void CostManagement::uiConfig()
 	ui.monthCost->setEnabled(false);
 	ui.monthEat->setEnabled(false);
 	ui.monthOther->setEnabled(false);
+	ui.allCost->setEnabled(false);
+
+	ui.costTable->setSortingEnabled(true);
+
+	ui.labelBackground->setText("");
+	ui.labelBackground->
+		setStyleSheet("QLabel{background-color:rgba(40,40,40,140);}");
 }
 
 bool CostManagement::CheckExit()
@@ -104,7 +157,7 @@ void CostManagement::closeEvent(QCloseEvent *e)
 		return;
 	}
 
-	QMessageBox tips;
+	AcrylicMessageBox tips;
 	tips.setText("\n 提示：\n\n 正在关闭窗口，是否保存数据？\t\n");
 	tips.setStandardButtons(
 		QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
@@ -247,6 +300,7 @@ void CostManagement::costAnalyze(int& rowID, QDateTime& date,
 	double& cost, QString& description, bool positiveAddin)
 {
 	curRemain(cost);
+	allCostCount(cost);
 
 	if ((cost > 0 && !positiveAddin) ||
 		(cost < 0 && positiveAddin))
@@ -280,6 +334,14 @@ void CostManagement::curRemain(double& cost)
 	double curRemainNumber = ui.curRemain->value();
 	curRemainNumber += cost;
 	ui.curRemain->setValue(curRemainNumber);
+}
+
+void CostManagement::allCostCount(double& cost)
+{
+	if (cost >= 0) return;
+	double curAllCost = ui.allCost->value();
+	curAllCost += cost;
+	ui.allCost->setValue(curAllCost);
 }
 
 bool CostManagement::weekCost(QDateTime& date, double& cost)
@@ -426,7 +488,7 @@ void CostManagement::monthOther(double cost)
 
 void CostManagement::fileOpenError()
 {
-	QMessageBox tips;
+	AcrylicMessageBox tips;
 	tips.setText("\n 提示：\n\n 文件读取错误！\t\n");
 	tips.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	tips.setButtonText(QMessageBox::Yes, " 打开文件夹 ");
@@ -486,7 +548,7 @@ void CostManagement::costDataInit()
 		RowCont = ui.costTable->rowCount();
 		ui.costTable->insertRow(RowCont);//增加一行
 		ui.costTable->setItem(RowCont, 0, new QTableWidgetItem(col0Str));
-		ui.costTable->setItem(RowCont, 1, new QTableWidgetItem(col1Str));
+		ui.costTable->setItem(RowCont, 1, new DoubleWidgetItem(col1Str));
 		ui.costTable->setItem(RowCont, 2, new QTableWidgetItem(col2Str));
 
 		QTableWidgetItem* pItem = ui.costTable->item(RowCont, 0);
@@ -712,6 +774,8 @@ void CostManagement::resizeEvent(QResizeEvent* e)
 	dataLeftBoundTemp += 80;
 	ui.newCostDescriptionLable->resize(sizeDataVector);
 	ui.newCostDescriptionLable->move(col4, row0);
+	ui.labelAllCost->resize(sizeDataVector);
+	ui.labelAllCost->move(col4, row1);
 	ui.monthOtherLabel->resize(sizeDataVector);
 	ui.monthOtherLabel->move(col4, row2);
 
@@ -722,8 +786,17 @@ void CostManagement::resizeEvent(QResizeEvent* e)
 	int col5 = dataLeftBoundTemp;
 	ui.newCostDescription->resize(sizeDescription);
 	ui.newCostDescription->move(col5, row0);
+	ui.allCost->resize(sizeDataVector);
+	ui.allCost->move(col5, row1);
 	ui.monthOther->resize(sizeDataVector);
 	ui.monthOther->move(col5, row2);
+	
+	QSize backgroundSize;
+	backgroundSize.setHeight(wHeight);
+	backgroundSize.setWidth(wWidth);
+
+	ui.labelBackground->resize(backgroundSize);
+	ui.labelBackground->move(0, 0);
 
 	return;
 }
@@ -750,7 +823,7 @@ void CostManagement::ClickButtonAdd()
 	ui.costTable->insertRow(rowID);//增加一行
 	ui.costTable->setItem(rowID, 0, new QTableWidgetItem(date));
 	ui.costTable->setItem(rowID, 1,
-		new QTableWidgetItem(QString::number(costInput, 10, 2)));
+		new DoubleWidgetItem(QString::number(costInput, 10, 2)));
 	ui.costTable->setItem(rowID, 2, new QTableWidgetItem(description));
 
 	QTableWidgetItem* pItem = ui.costTable->item(rowID, 0);

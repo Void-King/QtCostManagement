@@ -5,7 +5,34 @@
 #include <set>
 
 #include <QtWidgets/QMainWindow>
+#include <QMessageBox>
+
 #include "ui_CostManagement.h"
+
+class AcrylicMessageBox : public QMessageBox
+{
+public:
+	AcrylicMessageBox();
+
+protected:
+	void paintEvent(QPaintEvent *e);
+
+	QLabel* labelBackground = nullptr;
+};
+
+class DoubleWidgetItem : public QTableWidgetItem
+{
+public:
+	DoubleWidgetItem(const QString& text) :
+		QTableWidgetItem(text)
+	{
+	}
+
+	bool operator <(const QTableWidgetItem &other) const
+	{
+		return text().toFloat() < other.text().toFloat();
+	}
+};
 
 class CostManagement : public QMainWindow
 {
@@ -26,6 +53,7 @@ protected:
 	void resizeEvent(QResizeEvent* e);
 	void closeEvent(QCloseEvent* e);
 	void keyPressEvent(QKeyEvent* e);
+	void paintEvent(QPaintEvent *e);
 
 	void costInit();
 	void costDataInit();
@@ -45,6 +73,7 @@ protected:
 		QString& description, bool positiveAddin = false);
 
 	void curRemain(double& cost);
+	void allCostCount(double& cost);
 	bool weekCost(QDateTime& date, double& cost);
 	void weekEat(double& cost, QString& description);
 	bool monthCost(QDateTime& date, double cost);
@@ -71,6 +100,6 @@ private:
 
 	QString m_costFile = "";
 	bool m_directExit = false;
-	QColor m_monthBackColor = QColor::fromRgb(0, 60, 40);
-	QColor m_weekBackColor = QColor::fromRgb(0, 90, 60);
+	QColor m_monthBackColor = QColor(0, 60, 40, 140);
+	QColor m_weekBackColor = QColor(0, 120, 80, 140);
 };
